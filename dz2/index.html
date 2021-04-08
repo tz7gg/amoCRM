@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles/glDatePicker.default.css" rel="stylesheet" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="example1" gldp-id="mydate" />
+    <div gldp-el="mydate"
+         style="width:300px; height:225px;">
+    </div>  
+        
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="glDatePicker.min.js"></script>
+
+
+<script>
+    $.ajax(
+      'script.php',
+      {
+          success: function(data) {    
+            //инициализируем календарик
+            let calendar = $('#example1').glDatePicker(
+            {
+                showAlways: true,             
+                selectableDates: []
+            }).glDatePicker(true);
+        
+            data = JSON.parse(data) //получаем данные с бека
+
+            let selectableDatesArray = [] // массив  в правильном формате
+
+            //создаем правильный массив дат 
+            data.forEach(function(item, i, arr) {  
+              selectableDatesArray.push( {date: new Date(data[i])} )          
+            })                 
+
+            calendar.options.selectableDates = selectableDatesArray //добавляем массив в опции
+            calendar.render() //перерисовываем
+            
+          },
+          error: function() {
+            alert('There was some error performing the AJAX call!');
+          }
+       }
+    );
+    </script>
+
+</body>
+</html>
